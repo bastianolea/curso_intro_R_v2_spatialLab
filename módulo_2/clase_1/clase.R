@@ -1,0 +1,17 @@
+- cargar datos
+  - readr, readxl
+- seleccionar datos
+  - select, matches, starts_with
+- conteos
+  - count, sort
+- filtrar datos
+  - !
+- crear nuevas variables
+  - mutate varios pasos
+  - crear variables para filtrar 
+- recodificar variables
+  - case_when
+  - case_match
+- operaciones agrupadas
+  - summarize
+- resúmenes estadísticos
