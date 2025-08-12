@@ -1,0 +1,26 @@
+cargar datos fonasa
+locale = locale(encoding = "latin1")
+
+agregar filas y columnas
+add_row()
+bind_rows()
+bind_cols()
+
+cargar datos de delincuencia
+cumsum()
+lag()
+
+cargar datos de campamentos
+variables en formato texto
+filtrar en base a texto parcial
+recodificar, eliminar/reemplazar texto
+
+
+extraer cifras desde el texto, expresiones regulares (regex)
+vignette("regular-expressions")
+
+variables de factor
+fct_relevel
+fct_reorder
+
+
