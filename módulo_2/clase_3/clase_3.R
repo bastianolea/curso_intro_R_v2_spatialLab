@@ -1,25 +1,22 @@
 library(readr)
 library(dplyr)
 library(janitor)
-install.packages("tidyverse")
+# install.packages("tidyverse")
 library(dplyr)
 library(tidyverse)
 
+# cargar conjunto de datos que viene con una codificación un poco común
 fonasa <- read_csv("datos/Beneficiarios Fonasa 2024.csv")
 
 fonasa <- read_csv("datos/Beneficiarios Fonasa 2024.csv",
                     locale = locale(encoding = "latin1")) |> 
   clean_names()
 
+# explorar
 fonasa |> count(sexo)
 fonasa |> distinct(sexo)
 fonasa |> count(edad_tramo)
 fonasa |> count(nacionalidad)
-
-# |> |> |> |> |> |> |> |> 
-#   |> |> |> |> |> |>
-#   <- <- <- 
-#   <- <- <- <- <- <- <- <- <- <- <- <- <- <- <- <- <- <- 
 
 fonasa |> 
   glimpse()
@@ -62,12 +59,11 @@ altura <- c(180, 190, 170, 150, 140, 120)
 fonasa_2 |> 
   bind_cols(altura = altura)
 
-# unir dos tablas
+# unir dos tablas cuando comparten una misma estructura (columnas, tipo de datos)
 bind_rows(fonasa_2, fonasa_3)
 
-
-
-# crear tablas de datos
+# repaso de left_join:
+# crear tablas de datos manualmente
 animales_1 <- tibble(animal = c("perro", "gato", "pez"),
                      color = c("gris", "negro", "azul"))
 
@@ -79,9 +75,7 @@ animales_2 <- tibble(animal = c("perro", "gato", "pez"),
 left_join(animales_1, animales_2)
 
 
-
-
-
+# segundo ejemplo
 animales_1 <- tibble(animal = c("gato", "ratón", "perro", "pez"),
                      color = c("gris", "negro", "blanco", "azul"))
 
@@ -99,7 +93,7 @@ animales_3 <- left_join(animales_2, animales_1)
 animales_3
 
 
-
+# cargar conjunto de datos que vienen en formato Arrow Parquet
 install.packages("arrow")
 library(arrow)
 
@@ -114,18 +108,21 @@ cead |>
   filter(comuna == "Algarrobo") |> 
   select(comuna, fecha, delito_n)
 
+# este conjunto de datos viene con una columna en formato fecha
 cead |> 
   filter(delito == "Robo en lugar habitado") |> 
   filter(comuna == "Algarrobo") |> 
   select(comuna, fecha, delito_n) |> 
   arrange(desc(fecha))
 
+# intentar filtrar datos de un año
 cead |> 
   filter(delito == "Robo en lugar habitado") |> 
   filter(comuna == "Algarrobo") |> 
   select(comuna, fecha, delito_n) |> 
   filter(fecha == 2020)
 
+# trabajar con datos en formato fecha
 install.packages("lubridate")
 library(lubridate)
 
@@ -133,9 +130,10 @@ cead |>
   filter(delito == "Robo en lugar habitado") |> 
   filter(comuna == "Algarrobo") |> 
   select(comuna, fecha, delito_n) |> 
-  mutate(año = year(fecha)) |> 
-  filter(año == 2022)
+  mutate(año = year(fecha)) |> # convertir las fechas en años
+  filter(año == 2022) # filtrar el año
 
+# crear dataframe filtrado
 cead_filtro <- cead |> 
   # filter(delito == "Robo en lugar habitado") |> 
   filter(delito == "Hurtos") |> 
@@ -143,9 +141,11 @@ cead_filtro <- cead |>
   filter(comuna == "El Quisco") |> 
   select(comuna, fecha, delito_n)
 
+# hacer una versión del dataframe con la fechaen formato caracter
 cead_malo <- cead_filtro |> 
   mutate(fecha = as.character(fecha))
 
+# arreglar fecha en formato caracter
 cead_malo |> 
   mutate(fecha = lubridate::as_date(fecha))
 
@@ -197,8 +197,6 @@ cead_filtro_3 |>
 # {zoo} {slider}
 
 
-
-
 cead_todo <- cead |> 
   mutate(año = year(fecha)) |> 
   group_by(año, comuna, delito) |> 
@@ -213,7 +211,7 @@ cead_todo |>
   print(n=400)
 
 
-
+# datos de tipo texto o caracter
 library(readxl)
 camp <- read_xlsx("datos/campamentos_chile_2024.xlsx")
 
@@ -311,6 +309,7 @@ camp |>
   mutate(nombre = str_remove(nombre, "Las "))
 
 
+# tarea ----
 cowsay::say("Tarea para la casa")
 
 
@@ -324,9 +323,3 @@ unique(temperatura$nombre)
 # ¿cuál es la temperatura máxima (t_max) promedio de cada año, a partir del año 1970?
 # para una de las estaciones meteorológicas (a tu elección), y considerando sólo desde 1990 en adelante, calcula la temperatura máxima promedio de cada mes. ¿Cuál es el mes más caluroso?
 # queremos saber el rango de temperaturas en cada territorio. ¿qué estación meteorológica tiene el mayor rango o diferencia entre sus temperaturas mínimas y máximas?
-
-temperatura |> 
-  filter(nombre == "Chacalluta, Arica Ap.") |> 
-  group_by(año) |> 
-  summarize(max(t_max, na.rm = TRUE)) |> 
-  print(n=Inf)
