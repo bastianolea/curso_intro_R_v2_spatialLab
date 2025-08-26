@@ -1,0 +1,13 @@
+
+https://github.com/bastianolea/curso_intro_R_nivel3_spatialLab/blob/master/clase_2.R
+
+boxplot
+violin
+jitter
+mosaico
+lineas
+smooth
+tortas
+temas
+tipografías
+en lote
